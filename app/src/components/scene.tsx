@@ -127,6 +127,8 @@ export class EngineScene {
     /* Camera */
     this.camera = new THREE.PerspectiveCamera(48, 1, 0.1, 1000);
     this.camera.position.set(0, 5, this.zoom);
+    this.camera.position.z = this.zoom;
+    this.camera.lookAt(0, 0, 0);
 
     /* Renderer */
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
