@@ -3,7 +3,6 @@ export const RED = 0xff0000;
 export const DEEP_SKY_BLUE = 0x00d1ff;
 export const SELECTED_YELLOW = 0xffb300;
 export const SCARLET = 0xff3300;
-export const BLACK = 0x060c12;
 export const DUSK = 0x182433;
 export const WHITE = 0xffffff;
 export const CORNFLOWER_BLUE = 0x4488ff;
@@ -21,3 +20,6 @@ export const LPT_2 = 0x2a1200;
 export const EXHAUST = 0x6b7680;
 export const DARK_ORANGE = 0xff8800;
 export const ELECTRIC_BLUE = 0x7fdcff;
+
+export const threeToCss = (color: number): string => `#${color.toString(16).padStart(6, "0").toUpperCase()}`;
+export const cssToThree = (color: string): number => Number(color.replace("#", "0x"));

@@ -15,11 +15,11 @@ const buttonVariants = cva(
             stop:
                 'bg-red-500/20 border border-red-400/40 dark:text-red-200 dark:hover:bg-red-400/30 hover:border-red-300/70 text-red-600 hover:text-white active:scale-95',
             alarm:
-                'bg-amber-500/15 border border-amber-400/30 dark:text-amber-300 dark:hover:bg-amber-400/25 text-amber-600 hover:text-white active:scale-95',
+                'bg-amber-500/15 border border-amber-400/30 dark:text-amber-300 hover:bg-amber-500 dark:hover:bg-amber-400/25 text-amber-600 hover:text-white active:scale-95',
             'alarm-active':
-                'bg-red-300/40 dark:bg-red-600/40 border border-red-400/80 dark:text-red-100 shadow-[0_0_12px_rgba(255,50,50,0.4)] text-red-600 animate-pulse',
+                'bg-red-200/30 dark:bg-red-600/40 border border-red-400/80 dark:text-red-100 shadow-[0_0_12px_rgba(255,50,50,0.4)] text-red-600 animate-pulse',
             ghost:
-                'border border-black dark:border-white/10 dark:text-black dark:text-white/60 hover:bg-white/8 hover:text-black hover:text-white active:scale-95',
+                'border border-black dark:border-white/10 dark:text-black dark:text-white/60 dark:hover:bg-white dark:hover:text-black hover:bg-black text-black hover:text-white active:scale-95',
             login:
                 'bg-indigo-600/25 border border-indigo-400/50 dark:text-indigo-100 dark:hover:bg-indigo-500/35 hover:border-indigo-300/70 text-indigo-600 hover:text-white shadow-[0_0_20px_rgba(0,200,255,0.15)] active:scale-95',
             },

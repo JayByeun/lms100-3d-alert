@@ -13,8 +13,8 @@ export const HoverLabel = ({name, screenPos, alarmed}: {
         <div className={`flex flex-col items-center`}>
             <div className={`px-3 py-1.5 rounded border text-xs font-mono whitespace-nowrap shadow-lg backdrop-blur-sm ${
             alarmed
-                ? 'border-red-400/70 bg-red-950/80 text-red-200 shadow-red-900/40'
-                : 'border-indigo-400/40 bg-indigo-950/80 text-indigo-200 shadow-indigo-900/30'
+                ? 'border-red-400/70 bg-red-600 dark:bg-red-950/80 text-white dark:text-red-200 shadow-red-900/40'
+                : 'border-indigo-400/40 bg-indigo-300/20 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-200 shadow-indigo-900/30'
             }`}>
             {alarmed && <span className="mr-2">⚠</span>}
             {PART_FULL_NAMES[name] ?? name}

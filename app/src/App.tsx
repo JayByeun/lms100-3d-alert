@@ -13,6 +13,7 @@ import sisoLogo_light from "./assets/SISO_White.png";
 import sisoLogo_dark from "./assets/LOGO_Blue.png";
 import {initializeAuth} from './auth/msal';
 import {useTheme} from './components/ChangeTheme';
+import {INLET, LPC, INTERCOOLER, COMBUSTOR_1, HPC, EXHAUST, threeToCss} from './components/ui/colors';
 
 /* ===================== App ===================== */
 export default function App() {
@@ -96,31 +97,33 @@ export default function App() {
               {engine.alarmCount > 0 && (
                 <div className="flex items-center gap-1.5">
                   <StatusTab active color="amber" />
-                  <span className="text-xs tracking-wider text-amber-400">{engine.alarmCount} ALARM{engine.alarmCount > 1 ? 'S' : ''}</span>
+                  <span className="text-s tracking-wider text-amber-600 dark:text-amber-400">{engine.alarmCount} ALARM{engine.alarmCount > 1 ? 'S' : ''}</span>
                 </div>
               )}
             </div>
           </div>
 
-          <Button variant="ghost" onClick={toggle}>
-              {dark ? "LIGHT MODE" : "DARK MODE"}
-          </Button>
+          <div className='flex gap-5'>
+            <Button variant="ghost" onClick={toggle}>
+                {dark ? "LIGHT MODE" : "DARK MODE"}
+            </Button>
 
-          {/* Right: user + login */}
-          <div className="flex items-center gap-3">
-            {engine.user ? (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center">
-                    <span className="text-indigo-300 text-xs font-bold">{engine.user.username[0].toUpperCase()}</span>
+            {/* Right: user + login */}
+            <div className="flex items-center gap-3">
+              {engine.user ? (
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center">
+                      <span className="text-indigo-300 text-xs font-bold">{engine.user.username[0].toUpperCase()}</span>
+                    </div>
+                    <span className="text-black dark:text-white/60 text-xs tracking-wide hidden sm:block">{engine.user.username}</span>
                   </div>
-                  <span className="text-black dark:text-white/60 text-xs tracking-wide hidden sm:block">{engine.user.username}</span>
+                  <Button variant="ghost" size="sm" onClick={engine.logout}>LOGOUT</Button>
                 </div>
-                <Button variant="ghost" size="sm" onClick={engine.logout}>LOGOUT</Button>
-              </div>
-            ) : (
-              <LoginModal />
-            )}
+              ) : (
+                <LoginModal />
+              )}
+            </div>
           </div>
         </header>
 
@@ -188,9 +191,9 @@ export default function App() {
 
             {/* Run indicator badge */}
             {engine.running && (
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-400/30 bg-emerald-950/60 backdrop-blur-sm pointer-events-none">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-emerald-300 text-xs tracking-widest font-mono">ENGINE RUNNING</span>
+              <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-600 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-950/60 backdrop-blur-sm pointer-events-none">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-600 dark:text-emerald-300 text-xs tracking-widest font-mono font-semibold">ENGINE RUNNING</span>
               </div>
             )}
 
@@ -201,7 +204,7 @@ export default function App() {
           </main>
 
           {/* === Right Panel: Metrics === */}
-          <aside className="w-60 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto" style={{ background: 'rgba(6,10,16,0.96)' }}>
+          <aside className="w-60 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto bg-background">
             <div className="px-3 pt-4 pb-3">
               <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-3">Performance</div>
 
@@ -209,18 +212,22 @@ export default function App() {
                 <PerformanceCard label="Shaft Speed" value={rpm.toLocaleString()} unit="rpm"
                   color={rpm > 3200 ? 'amber' : 'indigo'}
                   warning={engine.alarms.HPT || engine.alarms.LPT}
+                  dark={dark}
                 />
                 <PerformanceCard label="Output Power" value={m.power} unit="MW"
                   color={m.power < 70 && engine.running ? 'amber' : 'green'}
+                  dark={dark}
                 />
                 <PerformanceCard label="Exhaust Temp" value={m.exhaustTemp} unit="°C"
                   color={m.exhaustTemp > 520 ? 'red' : m.exhaustTemp > 480 ? 'amber' : 'indigo'}
                   warning={engine.alarms.Combustor}
+                  dark={dark}
                 />
-                <PerformanceCard label="Inlet Temp" value={m.inletTemp} unit="°C" color="indigo" />
-                <PerformanceCard label="Compressor P" value={m.pressure} unit="bar" color="indigo" />
+                <PerformanceCard label="Inlet Temp" value={m.inletTemp} unit="°C" color="indigo" dark={dark} />
+                <PerformanceCard label="Compressor P" value={m.pressure} unit="bar" color="indigo" dark={dark} />
                 <PerformanceCard label="Heat Rate" value={m.heatRate} unit="BTU/kWh"
                   color="green"
+                  dark={dark}
                 />
               </div>
             </div>
@@ -230,12 +237,12 @@ export default function App() {
               <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-2">Airflow Temps</div>
               <div className="space-y-1.5">
                 {[
-                  { label: 'Inlet', temp: '15°C', color: '#00d1ff' },
-                  { label: 'Post-LPC', temp: '160°C', color: '#88c8ff' },
-                  { label: 'Intercooler', temp: '40°C', color: '#00cfff' },
-                  { label: 'Post-HPC', temp: '320°C', color: '#ffb300' },
-                  { label: 'Combustor', temp: '1250°C', color: '#ff4400' },
-                  { label: 'Exhaust', temp: `${m.exhaustTemp}°C`, color: '#ff8844' },
+                  { label: 'Inlet', temp: '15°C', color: threeToCss(INLET) },
+                  { label: 'Post-LPC', temp: '160°C', color: threeToCss(LPC) },
+                  { label: 'Intercooler', temp: '40°C', color: threeToCss(INTERCOOLER) },
+                  { label: 'Post-HPC', temp: '320°C', color: threeToCss(HPC) },
+                  { label: 'Combustor', temp: '1250°C', color: threeToCss(COMBUSTOR_1) },
+                  { label: 'Exhaust', temp: `${m.exhaustTemp}°C`, color: threeToCss(EXHAUST) },
                 ].map(({ label, temp, color }) => (
                   <div key={label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
