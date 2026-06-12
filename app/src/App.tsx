@@ -64,7 +64,7 @@ export default function App() {
             {/* Logo mark */}
             <div className="flex items-center gap-7">
               <div className="relative w-16 h-16">
-                <div className="flex inset-0 rounded-sm border border-indigo-400/40 bg-indigo-500/10 w-20 h-15">
+                <div className="flex inset-0 rounded-sm border border-indigo-400/40 dark:bg-indigo-500/10 w-20 h-15">
                     <img
                       src={dark ? sisoLogo_light : sisoLogo_dark}
                       alt="SISO"
@@ -204,7 +204,7 @@ export default function App() {
           </main>
 
           {/* === Right Panel: Metrics === */}
-          <aside className="w-60 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto bg-background">
+          <aside className="w-70 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto bg-background">
             <div className="px-3 pt-4 pb-3">
               <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-3">Performance</div>
 
