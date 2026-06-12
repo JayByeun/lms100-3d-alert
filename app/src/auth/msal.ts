@@ -44,6 +44,7 @@ export async function initializeAuth() {
 let isLoggingIn = false;
 
 export async function login() {
+    console.log(isLoggingIn)
     if (isLoggingIn) {
         return;
     }
@@ -51,8 +52,8 @@ export async function login() {
     try {
          const result = await msalInstance.loginPopup({
             // scopes: ['User.Read']
-            // scopes: ["openid", "profile"]
-            scopes: []
+            scopes: ["openid", "profile"]
+            // scopes: []
         });
 
         msalInstance.setActiveAccount(result.account);
@@ -80,8 +81,8 @@ export async function getAccessToken() {
     const result = await msalInstance.acquireTokenSilent({
         account,
         // scopes: ['User.Read']
-        // scopes: ["openid", "profile"]
-        scopes: []
+        scopes: ["openid", "profile"]
+        // scopes: []
     });
 
     return result.accessToken;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { msalInstance } from "../auth/msal";
+import { msalInstance, login as msalLogin } from "../auth/msal";
 
 export function useAuth() {
     const [account, setAccount] = useState<any>(null);
@@ -13,12 +13,18 @@ export function useAuth() {
             if (accounts.length > 0) {
                 msalInstance.setActiveAccount(accounts[0]);
                 setAccount(accounts[0]);
-                return;
+            } else {
+                setAccount(null);
             }
-            setAccount(null);
-        }
+        };
+
         init();
     }, []);
 
-    return {account, setAccount};
+    const login = async () => {
+        const result = await msalLogin();
+        setAccount(result);
+    };
+
+    return { account, login };
 }
