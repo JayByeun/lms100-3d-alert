@@ -166,7 +166,7 @@ export class EngineScene {
   private setupLighting() {
     this.scene.add(new THREE.AmbientLight(DUSK, 2.2));
 
-    const key = new THREE.DirectionalLight(WHITE, 2.5);
+    const key = new THREE.DirectionalLight(WHITE, 5);
     key.position.set(30, 40, 30);
     this.scene.add(key);
 
@@ -174,7 +174,7 @@ export class EngineScene {
     rim.position.set(-25, 5, -35);
     this.scene.add(rim);
 
-    const fill = new THREE.DirectionalLight(0xffe8cc, 0.5);
+    const fill = new THREE.DirectionalLight(0xffe8cc, 2);
     fill.position.set(-20, -25, 15);
     this.scene.add(fill);
 
@@ -221,15 +221,15 @@ export class EngineScene {
     radius: number,
     bladeLen: number,
     mat: THREE.Material,
-    bladeCount = 22
+    bladeCount = 10
   ) {
     const bGeo = new THREE.BoxGeometry(0.13, bladeLen, 0.48);
-    for (let z = zStart; z <= zEnd; z += 1.1) {
+    for (let z = zStart; z <= zEnd; z += 1.3) {
       for (let i = 0; i < bladeCount; i++) {
         const b = new THREE.Mesh(bGeo, mat);
         const a = (i / bladeCount) * Math.PI * 2;
         b.position.set(Math.cos(a) * radius, Math.sin(a) * radius, z);
-        b.rotation.z = a + 0.15; // slight twist
+        b.rotation.z = a + 0.3; // slight twist
         this.rotor.add(b);
       }
     }
@@ -341,7 +341,6 @@ export class EngineScene {
     for (let i = 0; i < FLOW_COUNT; i++) {
       const arrow = this.makeArrow();
       arrow.position.z = THREE.MathUtils.lerp(FLOW_START_Z, FLOW_END_Z, i / FLOW_COUNT);
-      /* Distribute arrows vertically within the engine cross-section */
       arrow.position.y = (i % 3 - 1) * 0.5;
       this.airflow.add(arrow);
       this.flowArrows.push(arrow);
