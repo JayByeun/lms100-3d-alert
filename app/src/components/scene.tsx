@@ -110,18 +110,6 @@ export class EngineScene {
 
   constructor(container: HTMLElement) {
     this.container = container;
-
-    /* Scene */
-  //   this.scene = new THREE.Scene();
-  //   const bg = new THREE.Color(
-  //     getComputedStyle(document.documentElement)
-  //       .getPropertyValue("--bg-hex")
-  //       .trim()
-  //   );
-  //     console.log(getComputedStyle(document.documentElement)
-  // .getPropertyValue("--bg-hex"));
-
-    // this.scene.background = new THREE.Color(bg);
     this.scene = new THREE.Scene();
 
     /* Camera */
