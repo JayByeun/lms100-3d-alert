@@ -12,8 +12,7 @@ import {StatusTab} from './components/StatusTab';
 import sisoLogo_light from "./assets/SISO_White.png";
 import sisoLogo_dark from "./assets/LOGO_Blue.png";
 import {initializeAuth} from './auth/msal';
-import {useTheme} from './components/ChangeTheme';
-import {INLET, LPC, INTERCOOLER, COMBUSTOR_1, HPC, EXHAUST, threeToCss} from './components/ui/colors';
+import {INLET, LPC, INTERCOOLER, COMBUSTOR_1, HPC, EXHAUST, threeToCss, useTheme} from './components/ui/colors';
 
 /* ===================== App ===================== */
 export default function App() {

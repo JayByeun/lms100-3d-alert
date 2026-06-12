@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const RED_ORANGE = 0xff2222;
 export const RED = 0xff0000;
 export const DEEP_SKY_BLUE = 0x00d1ff;
@@ -23,3 +25,13 @@ export const ELECTRIC_BLUE = 0x7fdcff;
 
 export const threeToCss = (color: number): string => `#${color.toString(16).padStart(6, "0").toUpperCase()}`;
 export const cssToThree = (color: string): number => Number(color.replace("#", "0x"));
+
+export const useTheme = () => {
+  const [dark, setDark] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return { dark, setDark, toggle: () => setDark(v => !v) };
+}
