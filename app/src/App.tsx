@@ -193,7 +193,7 @@ export default function App() {
           </main>
 
           {/* === Right Panel: Metrics === */}
-          <aside className="w-52 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto" style={{ background: 'rgba(6,10,16,0.96)' }}>
+          <aside className="w-60 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto" style={{ background: 'rgba(6,10,16,0.96)' }}>
             <div className="px-3 pt-4 pb-3">
               <div className="text-xs tracking-widest text-white/30 uppercase mb-3">Performance</div>
 
@@ -250,11 +250,11 @@ export default function App() {
               variant={engine.running ? 'stop' : 'run'}
               size="md"
               onClick={() => {
-                if (!engine.user && !engine.running) return;
+                // if (!engine.user && !engine.running) return;
                 engine.toggleRun();
               }}
-              disabled={!engine.user}
-              title={!engine.user ? 'Login required to control engine' : ''}
+              // disabled={!engine.user}
+              // title={!engine.user ? 'Login required to control engine' : ''}
             >
               <div className={`w-2 h-2 rounded-full ${engine.running ? 'bg-red-400 animate-pulse' : 'bg-emerald-400'}`} />
               {engine.running ? 'STOP ENGINE' : 'START ENGINE'}
