@@ -4,10 +4,11 @@ import {EngineScene, type SceneUpdated} from './scene';
 interface CanvasProps {
     running: boolean;
     alarms: Record<string, boolean>;
+    theme: boolean;
     onHover: (result: SceneUpdated) => void;
 }
 
-export const Canvas = ({running, alarms, onHover}: CanvasProps) => {
+export const Canvas = ({running, alarms, theme, onHover}: CanvasProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<EngineScene | null>(null);
     const rafRef = useRef<number>(0);
@@ -16,6 +17,10 @@ export const Canvas = ({running, alarms, onHover}: CanvasProps) => {
 
     runningRef.current = running;
     alarmsRef.current = alarms;
+
+    useEffect(() => {
+        sceneRef.current?.updateTheme(theme);
+    }, [theme]);
 
     const startLoop = useCallback(() => {
         const loop = () => {

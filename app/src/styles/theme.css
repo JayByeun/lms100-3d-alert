@@ -1,8 +1,13 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --foreground: #111827;
+  --muted: #6b7280;
+  --border: #d1d5db;
+  --panel: #ffffff;
   --font-size: 16px;
   --background: #ffffff;
+  --bg-hex: 0xffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
   --card-foreground: oklch(0.145 0 0);
@@ -42,8 +47,13 @@
 }
 
 .dark {
+  --foreground: #ffffff;
+  --muted: rgba(255,255,255,.6);
+  --border: rgba(255,255,255,.08);
+  --panel: #060c12;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  --bg-hex: 0x060c12;
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);

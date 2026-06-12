@@ -15,7 +15,6 @@ export const msalInstance = new PublicClientApplication(msalConfig);
 
 export async function initializeAuth() {
     await msalInstance.initialize();
-        console.log(import.meta.env.VITE_TENANT_ID)
     let account = msalInstance.getActiveAccount();
 
     if (!account) {
@@ -44,7 +43,7 @@ export async function initializeAuth() {
 let isLoggingIn = false;
 
 export async function login() {
-    console.log(isLoggingIn)
+
     if (isLoggingIn) {
         return;
     }
@@ -59,7 +58,7 @@ export async function login() {
         msalInstance.setActiveAccount(result.account);
 
         return result.account;
-    } catch (err) {
+    } catch (err: any) {
         console.error('Login failed', err);
         return null;
     } finally {

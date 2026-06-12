@@ -9,14 +9,17 @@ import type {SceneUpdated} from './components/scene';
 import {LoginModal} from './components/LoginModal';
 import {HoverLabel} from './components/HoverLabel';
 import {StatusTab} from './components/StatusTab';
-import sisoLogo from "./assets/SISO_White.png";
-import { initializeAuth } from './auth/msal';
+import sisoLogo_light from "./assets/SISO_White.png";
+import sisoLogo_dark from "./assets/LOGO_Blue.png";
+import {initializeAuth} from './auth/msal';
+import {useTheme} from './components/ChangeTheme';
 
 /* ===================== App ===================== */
 export default function App() {
   const engine = useEngine();
   const [hover, setHover] = useState<SceneUpdated>({ hover: null, screenPos: null });
   const [rpm, setRpm] = useState(0);
+  const {dark, toggle} = useTheme();
 
   const rpmRef = useRef(0);
   const runningRef = useRef(engine.running);
@@ -52,25 +55,25 @@ export default function App() {
 
   return (
     <Tooltip.Provider delayDuration={200}>
-      <div className="w-full h-full flex flex-col overflow-hidden min-h-0" style={{ background: '#060c12', color: '#c8d8e8', fontFamily: '"DM Mono", "IBM Plex Mono", monospace' }}>
+      <div className="w-full h-full flex flex-col overflow-hidden min-h-0 font-mono">
 
         {/* ===== Top Header ===== */}
-        <header className="flex-shrink-0 flex items-center justify-between px-5 h-25 border-b border-white/6" style={{ background: 'rgba(6,12,18,0.98)' }}>
+        <header className="flex-shrink-0 flex items-center justify-between px-5 h-25 border-b border-white/6 bg-background">
           <div className="flex items-center gap-4">
             {/* Logo mark */}
             <div className="flex items-center gap-7">
               <div className="relative w-16 h-16">
                 <div className="flex inset-0 rounded-sm border border-indigo-400/40 bg-indigo-500/10 w-20 h-15">
                     <img
-                      src={sisoLogo}
+                      src={dark ? sisoLogo_light : sisoLogo_dark}
                       alt="SISO"
                       className="flex z-10 w-full h-full object-contain px-2"
                     />
                 </div>
               </div>
               <div>
-                <div className="text-white text-s font-semibold tracking-widest">3D STATUS MONITORING SYSTEM</div>
-                <div className="text-white/35 text-xs tracking-wider">LMS100</div>
+                <div className="text-black dark:text-white text-s font-semibold tracking-widest">3D STATUS MONITORING SYSTEM</div>
+                <div className="text-black dark:text-white/35 text-xs tracking-wider">LMS100</div>
               </div>
             </div>
 
@@ -78,8 +81,8 @@ export default function App() {
 
             {/* Engine ID */}
             <div className="hidden sm:flex items-center gap-2">
-              <span className="text-white/30 text-s tracking-wider">UNIT</span>
-              <span className="text-indigo-300 text-s font-mono tracking-widest">U1</span>
+              <span className="text-black dark:text-white/30 text-s tracking-wider">UNIT</span>
+              <span className="text-indigo-600 dark:text-indigo-300 text-s font-mono tracking-widest">U1</span>
             </div>
 
             <div className="h-5 w-px bg-white/8" />
@@ -88,7 +91,7 @@ export default function App() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <StatusTab active={engine.running} color="green" />
-                <span className="text-s tracking-wider text-white/40">{engine.running ? 'RUNNING' : 'OFFLINE'}</span>
+                <span className="text-s tracking-wider text-black dark:text-white/40">{engine.running ? 'RUNNING' : 'OFFLINE'}</span>
               </div>
               {engine.alarmCount > 0 && (
                 <div className="flex items-center gap-1.5">
@@ -99,6 +102,10 @@ export default function App() {
             </div>
           </div>
 
+          <Button variant="ghost" onClick={toggle}>
+              {dark ? "LIGHT MODE" : "DARK MODE"}
+          </Button>
+
           {/* Right: user + login */}
           <div className="flex items-center gap-3">
             {engine.user ? (
@@ -107,7 +114,7 @@ export default function App() {
                   <div className="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center">
                     <span className="text-indigo-300 text-xs font-bold">{engine.user.username[0].toUpperCase()}</span>
                   </div>
-                  <span className="text-white/60 text-xs tracking-wide hidden sm:block">{engine.user.username}</span>
+                  <span className="text-black dark:text-white/60 text-xs tracking-wide hidden sm:block">{engine.user.username}</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={engine.logout}>LOGOUT</Button>
               </div>
@@ -121,9 +128,9 @@ export default function App() {
         <div className="flex-1 flex overflow-hidden min-h-0">
 
           {/* === Left Panel: Parts ===  */}
-          <aside className="w-65 flex-shrink-0 flex flex-col border-r border-white/6 overflow-y-auto" style={{ background: 'rgba(6,10,16,0.96)' }}>
+          <aside className="w-65 flex-shrink-0 flex flex-col border-r border-white/6 overflow-y-auto bg-background">
             <div className="px-3 pt-4 pb-2">
-              <div className="text-xs tracking-widest text-white/30 uppercase mb-3">Engine Sections</div>
+              <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-3">Engine Sections</div>
               <div className="space-y-3">
                 {ALL_PARTS.map(name => (
                   <AlarmController
@@ -166,6 +173,7 @@ export default function App() {
             <Canvas
               running={engine.running}
               alarms={engine.alarms}
+              theme={dark}
               onHover={handleHoverChange}
             />
 
@@ -187,7 +195,7 @@ export default function App() {
             )}
 
             {/* Drag hint */}
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/15 text-xs tracking-widest pointer-events-none">
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-black dark:text-white/15 text-xs tracking-widest pointer-events-none">
               DRAG TO ROTATE · SCROLL TO ZOOM
             </div>
           </main>
@@ -195,7 +203,7 @@ export default function App() {
           {/* === Right Panel: Metrics === */}
           <aside className="w-60 flex-shrink-0 flex flex-col border-l border-white/6 overflow-y-auto" style={{ background: 'rgba(6,10,16,0.96)' }}>
             <div className="px-3 pt-4 pb-3">
-              <div className="text-xs tracking-widest text-white/30 uppercase mb-3">Performance</div>
+              <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-3">Performance</div>
 
               <div className="space-y-2">
                 <PerformanceCard label="Shaft Speed" value={rpm.toLocaleString()} unit="rpm"
@@ -219,7 +227,7 @@ export default function App() {
 
             {/* Airflow section */}
             <div className="px-3 pt-2 pb-3 border-t border-white/5">
-              <div className="text-xs tracking-widest text-white/30 uppercase mb-2">Airflow Temps</div>
+              <div className="text-xs tracking-widest text-black dark:text-white/30 uppercase mb-2">Airflow Temps</div>
               <div className="space-y-1.5">
                 {[
                   { label: 'Inlet', temp: '15°C', color: '#00d1ff' },
@@ -232,7 +240,7 @@ export default function App() {
                   <div key={label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 4px ${color}` }} />
-                      <span className="text-white/45 text-xs">{label}</span>
+                      <span className="text-black dark:text-white/45 text-xs">{label}</span>
                     </div>
                     <span className="font-mono text-xs" style={{ color }}>{temp}</span>
                   </div>
@@ -261,12 +269,12 @@ export default function App() {
             </Button>
 
             {!engine.user && (
-              <span className="text-white/25 text-xs tracking-wide">· Login required to control</span>
+              <span className="text-black dark:text-white/25 text-xs tracking-wide">· Login required to control</span>
             )}
           </div>
 
           {/* Center: time & ID */}
-          <div className="hidden md:flex items-center gap-4 text-xs font-mono text-white/25 tracking-wider">
+          <div className="hidden md:flex items-center gap-4 text-xs font-mono text-black dark:text-white/25 tracking-wider">
             <span>SER: LMS100-01-0100</span>
             <span>·</span>
             <span>PLANT: Sentinel</span>
@@ -276,7 +284,7 @@ export default function App() {
 
           {/* Right: status */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-xs text-white/30 tracking-wide">
+            <div className="flex items-center gap-2 text-xs text-black dark:text-white/30 tracking-wide">
               <StatusTab active={!engine.alarmCount} color={engine.alarmCount ? 'amber' : 'green'} />
               {engine.alarmCount > 0 ? `${engine.alarmCount} FAULT(S)` : 'ALL SYSTEMS NOMINAL'}
             </div>

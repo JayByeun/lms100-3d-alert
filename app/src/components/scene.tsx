@@ -44,6 +44,18 @@ const makeCylinder = (
     return m;
 }
 
+const stageCylinder = (
+  rIn: number,
+  rOut: number,
+  len: number,
+  mat: THREE.Material
+) => {
+  const geo = new THREE.CylinderGeometry(rIn, rOut, len, 64, 1, true);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.rotation.x = Math.PI / 2;
+  return mesh;
+};
+
 const flowColorByZ = (z: number): THREE.Color => {
     const cold = new THREE.Color(DEEP_SKY_BLUE);
     const warm = new THREE.Color(SELECTED_YELLOW);
@@ -100,8 +112,17 @@ export class EngineScene {
     this.container = container;
 
     /* Scene */
+  //   this.scene = new THREE.Scene();
+  //   const bg = new THREE.Color(
+  //     getComputedStyle(document.documentElement)
+  //       .getPropertyValue("--bg-hex")
+  //       .trim()
+  //   );
+  //     console.log(getComputedStyle(document.documentElement)
+  // .getPropertyValue("--bg-hex"));
+
+    // this.scene.background = new THREE.Color(bg);
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(BLACK);
 
     /* Camera */
     this.camera = new THREE.PerspectiveCamera(48, 1, 0.1, 1000);
@@ -145,6 +166,12 @@ export class EngineScene {
     this.resize();
   }
 
+  updateTheme(dark: boolean) {
+    this.scene.background = new THREE.Color(
+      dark ? 0x060c12 : 0xF4F6F9
+    );
+  }
+
   /* ---- Lighting ---- */
   private setupLighting() {
     this.scene.add(new THREE.AmbientLight(DUSK, 2.2));
@@ -179,12 +206,12 @@ export class EngineScene {
       });
 
     this.baseMats = {
-      Inlet: m(INLET, 0.92, 0.18),
+      Inlet: m(INLET, 0.85, 0.08),
       LPC: m(LPC, 0.9, 0.2),
       Intercooler: m(INTERCOOLER, 0.82, 0.25),
       HPC: m(HPC, 0.9, 0.2),
-      Combustor: m(COMBUSTOR_1, 0.86, 0.18, COMBUSTOR_2, 0.5),
-      HPT: m(HPT_1, 0.9, 0.18, HPT_2, 0.3),
+      Combustor: m(COMBUSTOR_1, 1.2, 0.35, COMBUSTOR_2, 0.5),
+      HPT: m(HPT_1, 0.95, 0.22, HPT_2, 0.3),
       LPT: m(LPT_1, 0.86, 0.22, LPT_2, 0.15),
       Exhaust: m(EXHAUST, 0.92, 0.28),
     };
@@ -222,16 +249,16 @@ export class EngineScene {
     const wireMat = new THREE.MeshBasicMaterial({ color: 0x3a5570, wireframe: true });
 
     /* Engine sections */
-    const inlet = this.addPart('Inlet', makeCylinder(2.0, 2.5, 7.2, 52, this.baseMats.Inlet));
+    const inlet = this.addPart('Inlet', stageCylinder(3.2, 2.4, 7.2, this.baseMats.Inlet));
     inlet.position.z = -37;
 
-    const lpc = this.addPart('LPC', makeCylinder(2.5, 2.0, 8.2, 52, this.baseMats.LPC));
+    const lpc = this.addPart('LPC', stageCylinder(2.4, 1.9, 8.2, this.baseMats.LPC));
     lpc.position.z = -26;
 
-    const hpc = this.addPart('HPC', makeCylinder(2.0, 2.0, 8, 52, this.baseMats.HPC));
+    const hpc = this.addPart('HPC', stageCylinder(1.9, 1.5, 8, this.baseMats.HPC));
     hpc.position.z = -5;
 
-    const combustor = this.addPart('Combustor', makeCylinder(2.5, 2.0, 6, 36, this.baseMats.Combustor));
+    const combustor = this.addPart('Combustor', stageCylinder(2.2, 3.0, 6, this.baseMats.Combustor));
     combustor.position.z = 6.5;
 
     /* Combustor outer ring for glow effect */
@@ -247,13 +274,13 @@ export class EngineScene {
     combustorGlow.userData.noAlarm = true;
     this.exterior.add(combustorGlow);
 
-    const hpt = this.addPart('HPT', makeCylinder(3.5, 2.5, 4.4, 36, this.baseMats.HPT));
+    const hpt = this.addPart('HPT', stageCylinder(3.0, 3.8, 4.4, this.baseMats.HPT));
     hpt.position.z = 13;
 
-    const lpt = this.addPart('LPT', makeCylinder(4.5, 3.5, 3.4, 36, this.baseMats.LPT));
+    const lpt = this.addPart('LPT', stageCylinder(3.8, 4.6, 3.4, this.baseMats.LPT));
     lpt.position.z = 18.5;
 
-    const exhaust = this.addPart('Exhaust', makeCylinder(6.5, 4.5, 8, 36, this.baseMats.Exhaust));
+    const exhaust = this.addPart('Exhaust', stageCylinder(4.6, 6.0, 8, this.baseMats.Exhaust));
     exhaust.position.z = 29;
 
     /* Intercooler shell */
