@@ -79,7 +79,7 @@ export default function App() {
             {/* Engine ID */}
             <div className="hidden sm:flex items-center gap-2">
               <span className="text-white/30 text-s tracking-wider">UNIT</span>
-              <span className="text-indigo-300 text-s font-mono tracking-widest">U1</span>
+              <span className="text-indigo-300 text-s font-display tracking-widest">U1</span>
             </div>
 
             <div className="h-5 w-px bg-white/8" />
@@ -182,7 +182,7 @@ export default function App() {
             {engine.running && (
               <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-400/30 bg-emerald-950/60 backdrop-blur-sm pointer-events-none">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-emerald-300 text-xs tracking-widest font-mono">ENGINE RUNNING</span>
+                <span className="text-emerald-300 text-xs tracking-widest font-display">ENGINE RUNNING</span>
               </div>
             )}
 
@@ -234,7 +234,7 @@ export default function App() {
                       <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 4px ${color}` }} />
                       <span className="text-white/45 text-xs">{label}</span>
                     </div>
-                    <span className="font-mono text-xs" style={{ color }}>{temp}</span>
+                    <span className="font-display text-xs" style={{ color }}>{temp}</span>
                   </div>
                 ))}
               </div>
@@ -266,7 +266,7 @@ export default function App() {
           </div>
 
           {/* Center: time & ID */}
-          <div className="hidden md:flex items-center gap-4 text-xs font-mono text-white/25 tracking-wider">
+          <div className="hidden md:flex items-center gap-4 text-xs font-display text-white/25 tracking-wider">
             <span>SER: LMS100-01-0100</span>
             <span>·</span>
             <span>PLANT: Sentinel</span>

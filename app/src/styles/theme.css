@@ -79,6 +79,8 @@
 }
 
 @theme inline {
+  --font-display: "Fjalla One", sans-serif;
+  --font-slab: "Roboto Slab", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
